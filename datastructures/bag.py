@@ -2,6 +2,8 @@ from typing import Iterable, Optional
 from datastructures.ibag import IBag, T
 
 
+# comment
+
 class Bag(IBag[T]):
     def __init__(self, *items: Optional[Iterable[T]]) -> None:
         raise NotImplementedError("__init__ method not implemented")

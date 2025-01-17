@@ -3,6 +3,8 @@ from typing import Optional, TypeVar, Generic, Iterable
 
 T = TypeVar('T')  # Generic type for items in the Bag
 
+# comment
+
 class IBag(ABC, Generic[T]):
     """
     Interface for a Bag (MultiSet) data structure.
