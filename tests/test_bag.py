@@ -3,6 +3,7 @@ import pytest
 from datastructures.bag import Bag
 
 # comment
+# comment
 
 @pytest.fixture
 def bag():
