@@ -1,9 +1,9 @@
-from typing import Iterable, Optional
+from typing import Iterable
 from datastructures.ibag import IBag, T
 
 
 class Bag(IBag[T]):
-    def __init__(self, *items: Optional[Iterable[T]]) -> None:
+    def __init__(self, *items: T) -> None: # change typehint to T
         raise NotImplementedError("__init__ method not implemented")
 
     def add(self, item: T) -> None:
@@ -18,7 +18,7 @@ class Bag(IBag[T]):
     def __len__(self) -> int:
         raise NotImplementedError("__len__ method not implemented")
 
-    def distinct_items(self) -> int:
+    def distinct_items(self) -> Iterable[T]:
         raise NotImplementedError("distinct_items method not implemented")
 
     def __contains__(self, item) -> bool:
