@@ -11,7 +11,7 @@ class IBag(ABC, Generic[T]):
     """
 
     @abstractmethod
-    def __init__(self, *items: Optional[Iterable[T]]) -> None:
+    def __init__(self, *items: T) -> None: # modify typehint
         """
         Initializes the Bag.
         """
