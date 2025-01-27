@@ -5,7 +5,7 @@ from datastructures.ibag import IBag, T
 class Bag(IBag[T]):
     def __init__(self, *items: T) -> None: # change typehint to T
         raise NotImplementedError("__init__ method not implemented")
-
+        
     def add(self, item: T) -> None:
         raise NotImplementedError("add method not implemented")
 
