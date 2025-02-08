@@ -1,24 +1,50 @@
 
 
+import copy
 from dataclasses import dataclass
 from enum import Enum
+import random
+
+from datastructures.bag import Bag
 
 
-class CardSuit(Enum):
+class Suit(Enum):
     HEARTS = "❤️"
     SPADE = "♠️"
     CLUBS = "♣️"
     DIAMONDS = "♦️"
 
-class CardFace(Enum):
-    ONE = "1"
+class Face(Enum):
     TWO = "2"
-    JACK = "10"
-    QUEEN = "10"
-    KING = "10"
-    ACE = "11"
+    THREE = "3"
+    FOUR = "4"
+    FIVE = "5"
+    SIX = "6"
+    SEVEN = "7"
+    EIGHT = "8"
+    NINE = "9"
+    TEN = "10"
+    JACK = "J"
+    QUEEN = "Q"
+    KING = "K"
+    ACE = "A"
+
+    def face_value(self) -> int:
+        match self:
+            case Face.JACK | Face.QUEEN | Face.KING:
+                return 10
+            case Face.ACE:
+                return 11
+            case _:
+                return int(self.value)
 
 @dataclass
 class Card:
-    card_face: CardFace
-    card_suit: CardSuit
+    face: Face
+    suit: Suit
+
+    def __hash__(self) -> int:
+        return hash((self.face, self.suit))
+
+    def __str__(self) -> str:
+        return f"[{self.face.value}{self.suit.value}]"

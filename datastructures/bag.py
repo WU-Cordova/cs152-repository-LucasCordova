@@ -29,7 +29,7 @@ class Bag(IBag[T]):
         raise NotImplementedError("__len__ method not implemented")
 
     def distinct_items(self) -> Iterable[T]:
-        raise NotImplementedError("distinct_items method not implemented")
+        return self.__bag.keys()
 
     def __contains__(self, item) -> bool:
         raise NotImplementedError("__contains__ method not implemented")
