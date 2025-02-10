@@ -44,7 +44,7 @@ class Card:
     suit: Suit
 
     def __hash__(self) -> int:
-        return hash((self.face, self.suit))
+        return hash(self.face.name) + hash(self.suit.name)
 
     def __str__(self) -> str:
         return f"[{self.face.value}{self.suit.value}]"
