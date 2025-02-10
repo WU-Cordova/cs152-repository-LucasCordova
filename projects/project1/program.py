@@ -11,6 +11,9 @@ def main():
     print("".join(str(card) for card in one_deck_list))
 
     deck_count = random.choice([2, 4, 6, 8])
+    # multi_deck = one_deck_list * deck_count
+
+
     multi_deck_list = [card for _ in range(deck_count) for card in copy.deepcopy(one_deck_list)]
 
     print(f"{deck_count} decks have {len(multi_deck_list)} cards")

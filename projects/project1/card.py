@@ -38,7 +38,7 @@ class Face(Enum):
             case _:
                 return int(self.value)
 
-@dataclass
+@dataclass(frozen=True)
 class Card:
     face: Face
     suit: Suit
