@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 from collections.abc import Sequence
+import copy
 import os
 from typing import Any, Iterator, overload
 import numpy as np
@@ -19,17 +20,53 @@ from datastructures.iarray import IArray, T
 class Array(IArray[T]):  
 
     def __init__(self, starting_sequence: Sequence[T]=[], data_type: type=object) -> None: 
-        raise NotImplementedError('Constructor not implemented.')
+        self.__logical_size = len(starting_sequence)
+        self.__capacity = self.__logical_size
+        self.__data_type = data_type
+
+        self.__elements = np.empty(self.__logical_size, dtype=self.__data_type)
+
+        for index in range(self.__logical_size):
+            self.__elements[index] = copy.deepcopy(starting_sequence[index])
 
     @overload
     def __getitem__(self, index: int) -> T: ...
     @overload
     def __getitem__(self, index: slice) -> Sequence[T]: ...
     def __getitem__(self, index: int | slice) -> T | Sequence[T]:
-            raise NotImplementedError('Indexing not implemented.')
+            
+            if isinstance(index, slice):
+
+                start, stop = index.start, index.stop
+
+                if start >= self.__logical_size or stop > self.__logical_size or ...
+                    raise IndexError("Out of bounds")
+                
+                items_to_return = self.__elements[index].tolist()
+                return Array(starting_sequence=items_to_return, data_type=self.__data_type)
+
+
+                # start = slice.start
+                # stop = slice.stop
+                # step  = slice.step
+
+                # check if start and stop are in bounds. If they are not,
+                # raise an exception
+
+                return Array(starting_sequence=self.__elements[index].tolist(), data_type=self.__data_type)
+
+            elif isinstance(index, int):
+
+                # if index is out of bounds, 
+                # raise an exception
+                return self.__elements[index]
+
+            # return self.__elements[index] # item if index is an int
+    
+            # return self.__elements[index] # item if it's a slice
     
     def __setitem__(self, index: int, item: T) -> None:
-        raise NotImplementedError('Indexing not implemented.')
+        self.__elements[index] = item
 
     def append(self, data: T) -> None:
         raise NotImplementedError('Append not implemented.')

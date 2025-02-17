@@ -32,7 +32,16 @@ class TestArray:
 
 
     def test_index_operator_should_return_the_item_at_the_index_specified_of_the_array(self, setup_numerical_array: Array):
-        assert setup_numerical_array[5] == 5
+        # Arrange
+        array =  Array[int](starting_sequence=[i for i in range(10)], data_type=int)
+        
+        # ACT
+        item = array[5]
+
+       
+
+        # ASSERT
+        assert item == 5
     
     def test_index_operator_should_raise_an_IndexError_exception_if_the_index_is_out_of_bounds(self, setup_numerical_array: Array):
         with pytest.raises(IndexError):
