@@ -47,7 +47,30 @@ class Array(IArray[T]):
     @overload
     def __getitem__(self, index: slice) -> Sequence[T]: ...
     def __getitem__(self, index: int | slice) -> T | Sequence[T]:
-            raise NotImplementedError('Indexing not implemented.')
+            if isinstance(index, int):
+                # handle index, in bounds, etc.
+                pass
+            elif isinstance(index, slice):
+
+                start2, stop2, step2 = index.indices(self.__logical_size)
+
+                start, stop, step = index.start, index.start, index.step
+
+                if start is not None:
+                    # check if in bounds if out of bounds
+                    pass
+                if stop is not None:
+                    # raise an exception if out of bounds
+                    pass
+                
+                items_to_return = self.__items[index]
+
+            return Array(starting_sequence=items_to_return[start:stop:step].tolist(), data_type=self.__data_type)
+
+                
+    
+
+
     
     def __setitem__(self, index: int, item: T) -> None:
         raise NotImplementedError('Indexing not implemented.')
