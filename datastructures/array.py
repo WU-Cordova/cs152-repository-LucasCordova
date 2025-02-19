@@ -39,7 +39,7 @@ class Array(IArray[T]):
 
                 start, stop = index.start, index.stop
 
-                if start >= self.__logical_size or stop > self.__logical_size or ...
+                if start >= self.__logical_size or stop > self.__logical_size:
                     raise IndexError("Out of bounds")
                 
                 items_to_return = self.__elements[index].tolist()
