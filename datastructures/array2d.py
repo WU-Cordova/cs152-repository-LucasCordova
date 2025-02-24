@@ -43,10 +43,12 @@ class Array2D(IArray2D[T]):
         raise NotImplementedError('Array2D.empty not implemented.')
 
     def __getitem__(self, row_index: int) -> Array2D.IRow[T]: 
-        raise NotImplementedError('Array2D.__getitem__ not implemented.')
+        return Array2D.Row(row_index=row_index, self._array, self._num_cols))    
     
+
     def __iter__(self) -> Iterator[Sequence[T]]: 
-        raise NotImplementedError('Array2D.__iter__ not implemented.')
+        
+        raise NotImplementedError('Array2D.__getitem__ not implemented.')
     
     def __reversed__(self):
         raise NotImplementedError('Array2D.__reversed__ not implemented.')
