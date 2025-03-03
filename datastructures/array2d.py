@@ -1,6 +1,6 @@
 from __future__ import annotations
 import os
-from typing import Iterator, List, Sequence
+from typing import Iterator, Sequence
 
 from datastructures.iarray import IArray
 from datastructures.array import Array
@@ -8,33 +8,29 @@ from datastructures.iarray2d import IArray2D, T
 
 
 class Array2D(IArray2D[T]):
-
     class Row(IArray2D.IRow[T]):
         def __init__(self, row_index: int, array: IArray, num_columns: int) -> None:
             self.row_index = row_index
             self.array = array
             self.num_columns = num_columns
 
-        def map_index(self, row_index: int, column_index) -> int:
-            return row_index * self.num_columns + column_index
-
         def __getitem__(self, column_index: int) -> T:
-            # If the row and column are out of bounds, raise IndexError
-            index: int = self.map_index(self.row_index, column_index)
-
-            return self.array[index]
+            if column_index < 0 or column_index >= self.num_columns: raise IndexError(f'Column index {column_index} out of bounds.')
+            return self.array[self.index_mapper(column_index)]
+        
+        def index_mapper(self, column_index: int) -> int:
+            return self.row_index * self.num_columns + column_index
         
         def __setitem__(self, column_index: int, value: T) -> None:
-            # If the row and column are out of bounds, raise IndexError
-            index: int = self.map_index(self.row_index, column_index)        
-
-            self.array[index] = value
-
+            self.array[self.index_mapper(column_index)] = value
+        
         def __iter__(self) -> Iterator[T]:
-            raise NotImplementedError('Row.__iter__ not implemented.')
+            for column_index in range(self.num_columns):
+                yield self[column_index]
         
         def __reversed__(self) -> Iterator[T]:
-            raise NotImplementedError('Row.__reversed__ not implemented.')
+            for column_index in range(self.num_columns - 1, -1, -1):
+                yield self[column_index]
 
         def __len__(self) -> int:
             return self.num_columns
@@ -47,57 +43,51 @@ class Array2D(IArray2D[T]):
 
 
     def __init__(self, starting_sequence: Sequence[Sequence[T]]=[[]], data_type=object) -> None:
-        self.data_type = data_type
-        # If starting_sequence is not a sequence, raise ValueError
-        # If all of the rows are not sequences, then raise ValueError.
-        # Check that the types are all the same
-        # Check that all the lengths are the same as starting_sequence[0]
-        self.rows_len = len(starting_sequence)
-        self.cols_len = len(starting_sequence[0])
+        if not isinstance(starting_sequence, Sequence) or isinstance(starting_sequence, str): 
+            raise ValueError(f'Input `{starting_sequence}` must be a sequence of sequences.')
+        if not all(isinstance(row, Sequence) for row in starting_sequence): 
+            raise ValueError(f'Input `{starting_sequence}` must be a sequence containing sequences.')
 
-        py_list = []
-        for row in range(self.rows_len):
-            for col in range(self.cols_len):
-                py_list.append(starting_sequence[row][col])
-
-        self.elements2d = Array(starting_sequence=py_list, data_type=data_type)
-
-
+        self.__num_rows = len(starting_sequence)
+        self.__num_columns = len(starting_sequence[0])
+        if self.__num_rows > 0 and not all(len(row) == self.__num_columns for row in starting_sequence): 
+            raise ValueError(f'Input `{starting_sequence}` must be a sequence of sequences with the same length.')
+        
+        self._data_type = data_type
+        if not all(isinstance(item, self._data_type) for row in starting_sequence for item in row): 
+            raise ValueError('All items must be of the same type.')
+        
+        self.__array = Array([item for row in starting_sequence for item in row], data_type)
 
     @staticmethod
-    def empty(rows: int=0, cols: int=0, data_type: type=object) -> Array2D:
-    
-        pylist2d: List[List[T]] = []
-        for row in range(rows):
-            pylist2d.append([])
-            for col in range(cols):
-                pylist2d[row].append(data_type())
-
-
-        return Array2D(starting_sequence=pylist2d, data_type=data_type)
+    def empty(rows: int=0, cols: int=0, data_type: type=object) -> Array2D[T]:
+        return Array2D([[data_type() for _ in range(cols)] for _ in range(rows)], data_type)
 
     def __getitem__(self, row_index: int) -> Array2D.IRow[T]: 
-        return Array2D.Row(row_index, self.elements2d, self.cols_len)   
+        if row_index < 0 or row_index >= self.__num_rows: raise IndexError(f'Row index {row_index} out of bounds.')
+        return Array2D.Row(row_index, self.__array, self.__num_columns)
     
-
     def __iter__(self) -> Iterator[Sequence[T]]: 
-        
-        raise NotImplementedError('Array2D.__getitem__ not implemented.')
+        for row_index in range(self.__num_rows):
+            yield self[row_index]
     
     def __reversed__(self):
-        raise NotImplementedError('Array2D.__reversed__ not implemented.')
+        for row_index in range(self.__num_rows - 1, -1, -1):
+            yield self[row_index]
     
-    def __len__(self): 
-        print("FROM LEN")
-        return self.rows_len
-                                  
-    def __str__(self) -> str: 
-        return f'[{", ".join(f"{str(row)}" for row in self)}]'
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Array2D): return False
+        if self.__num_rows != other.__num_rows or self.__num_columns != other.__num_columns: return False
+        return self.__array == other.__array
     
-    def __repr__(self) -> str: 
-        return f'Array2D {self.rows_len} Rows x {self.cols_len} Columns, items: {str(self)}'
+    def __len__(self): return self.__num_rows
+    def __str__(self) -> str: return f'[{", ".join(f"{str(row)}" for row in self)}]'
+    def __repr__(self) -> str: return f'Array2D {self.__num_rows} Rows x {self.__num_columns} Columns, items: {str(self)}'
 
 
 if __name__ == '__main__':
     filename = os.path.basename(__file__)
     print(f'This is the {filename} file.\nDid you mean to run your tests or program.py file?\nFor tests, run them from the Test Explorer on the left.')
+
+# Note to Future Self
+# add the __eq__ method to both Array2D and Row

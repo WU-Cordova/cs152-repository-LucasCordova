@@ -1,31 +1,14 @@
-import time
-from projects.project2.kbhit import KBHit
+
+
+from projects.project2.cell import Cell
+from projects.project2.grid import Grid
+from projects.project2.gamecontroller import GameController
 
 
 def main():
-    
-    print("Hello, World!")
-    kb = KBHit()
-
-    print('Hit any key, or ESC to exit')
-
-    iteration = 0
-
-    while True:
-
-        print(f'In loop: {iteration}')
-        iteration += 1
-        time.sleep(1)
-
-        if kb.kbhit():
-            key = (kb.getch())
-            print(f'Key you pressed is {key}')
-            time.sleep(2)
-            if key == "Q": # ESC
-                break
-            
-
-    kb.set_normal_term()
+    grid = Grid(10, 10)
+    game_controller = GameController(grid)
+    game_controller.run()
 
 
 if __name__ == '__main__':
