@@ -57,7 +57,7 @@ class Array2D(IArray2D[T]):
             for column_index in range(self.column_len):
                 self.array2d[index] = starting_sequence[row_index][column_index]
                 index += 1
-                index = index + 1
+                
                 
 
 
