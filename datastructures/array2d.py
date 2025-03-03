@@ -88,6 +88,7 @@ class Array2D(IArray2D[T]):
         raise NotImplementedError('Array2D.__reversed__ not implemented.')
     
     def __len__(self): 
+        print("FROM LEN")
         return self.rows_len
                                   
     def __str__(self) -> str: 

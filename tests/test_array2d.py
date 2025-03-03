@@ -64,6 +64,7 @@ class TestArray2D:
     # ✅ Test Length (Row Count)
     def test_len(self, filled3x3: Array2D[int]) -> None:
         """Ensures len(Array2D) returns the correct number of rows."""
+        print("HELLO !")
         assert len(filled3x3) == 3
 
     # ✅ Test String Representation
