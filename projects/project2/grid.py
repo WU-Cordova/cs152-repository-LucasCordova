@@ -24,11 +24,25 @@ class Grid:
             print()
         print()
     
-    def get_neighbors(self, row, col) -> None:
-        raise NotImplementedError
+    def get_neighbors(self, row, col) -> int:
+        count = 0
+
+        if col < self.cols and self.grid[row][col + 1].is_alive: # right
+            count += 1
+        # the rest of the 7 cases
+
+
+        return count
     
     def next_generation(self) -> Grid:
-        raise NotImplementedError
+        next_grid = Grid(self.rows, self.cols)
+        for row in range(self.rows):
+            for col in range(self.cols):
+                num_neighbors = self.get_neighbors(row, col)
+                next_state = self.grid[row][col].next_state(num_neighbors)
+                next_grid[row][col].is_alive = next_state
+
+        return next_grid
     
     def __eq__(self, value):
         if isinstance(value, Grid) and self.rows == value.rows and self.cols == value.cols:
