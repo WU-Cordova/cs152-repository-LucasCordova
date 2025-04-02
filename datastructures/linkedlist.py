@@ -60,7 +60,28 @@ class LinkedList[T](ILinkedList[T]):
         raise NotImplementedError("LinkedList.prepend is not implemented")
 
     def insert_before(self, target: T, item: T) -> None:
-        raise NotImplementedError("LinkedList.insert_before is not implemented")
+        # raise an TypeError if target or item are not the correct types
+        # raise a ValueError if target is not even in the darn list
+
+        if self.head and self.head.data == target:
+            self.prepend(item)
+            return
+
+
+        travel = self.head
+
+        while travel is not None:
+
+            if travel.data == target:
+                break
+
+            travel = travel.next
+        
+        if travel is None:
+            raise ValueError(f"The target item {target} is not in the linked list.")
+        
+        self.count += 1
+
 
     def insert_after(self, target: T, item: T) -> None:
         raise NotImplementedError("LinkedList.insert_after is not implemented")
