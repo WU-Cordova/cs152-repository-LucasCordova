@@ -71,7 +71,28 @@ class LinkedList[T](ILinkedList[T]):
 
 
     def insert_before(self, target: T, item: T) -> None:
-        raise NotImplementedError("LinkedList.insert_before is not implemented")
+        # Raise ValueError if the target does not exist
+        # Raise TypeError if the target is not the right type
+        # Raise TypeError if the item is not the right type
+    
+        travel = self.head
+
+        while travel:
+
+            if travel.data == target:
+                break
+
+            travel = travel.next
+
+        if travel is None:
+            raise ValueError(f'The target value {target} was not found in the linked list.')
+        
+        if travel is self.head:
+            self.prepend(item)
+            return
+        
+        # Not the head
+        
 
     def insert_after(self, target: T, item: T) -> None:
         raise NotImplementedError("LinkedList.insert_after is not implemented")
