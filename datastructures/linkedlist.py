@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import os
-from typing import Optional, Sequence
+from typing import Iterator, Optional, Sequence
 from datastructures.ilinkedlist import ILinkedList, T
 
 
@@ -132,11 +132,22 @@ class LinkedList[T](ILinkedList[T]):
     def __contains__(self, item: T) -> bool:
         raise NotImplementedError("LinkedList.__contains__ is not implemented")
 
-    def __iter__(self) -> ILinkedList[T]:
-        raise NotImplementedError("LinkedList.__iter__ is not implemented")
+    def __iter__(self) -> Iterator[T]:
+        
+        self.travel_node = self.head
+        return self
+    
 
     def __next__(self) -> T:
-        raise NotImplementedError("LinkedList.__next__ is not implemented")
+        
+        if self.travel_node is None:
+            raise StopIteration
+        
+        data = self.travel_node.data
+        self.travel_node = self.travel_node.next
+
+        return data
+
     
     def __reversed__(self) -> ILinkedList[T]:
         raise NotImplementedError("LinkedList.__reversed__ is not implemented")
