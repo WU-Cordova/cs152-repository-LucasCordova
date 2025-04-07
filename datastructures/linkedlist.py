@@ -117,6 +117,8 @@ class LinkedList[T](ILinkedList[T]):
     def back(self) -> T:
         # check that tail is not None first
 
+        if self.tail is None:
+            raise ValueError("The linked list is empty, no back element exists.")
         return self.tail.data
 
     @property
@@ -148,7 +150,6 @@ class LinkedList[T](ILinkedList[T]):
 
         return data
 
-    
     def __reversed__(self) -> ILinkedList[T]:
         raise NotImplementedError("LinkedList.__reversed__ is not implemented")
     
