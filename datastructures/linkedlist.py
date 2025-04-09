@@ -71,6 +71,9 @@ class LinkedList[T](ILinkedList[T]):
 
 
     def insert_before(self, target: T, item: T) -> None:
+        if not isinstance(target, self.data_type) or not isinstance(item, self.data_type):
+            raise TypeError("Incorrect type")
+
         # Raise ValueError if the target does not exist
         # Raise TypeError if the target is not the right type
         # Raise TypeError if the item is not the right type
