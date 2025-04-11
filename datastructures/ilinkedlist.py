@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import abstractmethod
 import abc
 import os
-from typing import Sequence, TypeVar
+from typing import Iterator, Sequence, TypeVar
 
 T = TypeVar('T')
 
@@ -479,7 +479,7 @@ class ILinkedList[T](abc.ABC):
         ...
 
     @abstractmethod
-    def __reversed__(self) -> ILinkedList[T]:
+    def __reversed__(self) -> Iterator[T]:
 
         ''' Returns a reversed version of the list
         

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import os
-from typing import Optional, Sequence
+from typing import Iterator, Optional, Sequence
 from datastructures.ilinkedlist import ILinkedList, T
 
 
@@ -136,8 +136,16 @@ class LinkedList[T](ILinkedList[T]):
         self.travel_node = self.travel_node.next
         return data
     
-    def __reversed__(self) -> ILinkedList[T]:
-        raise NotImplementedError("LinkedList.__reversed__ is not implemented")
+    def __reversed__(self) -> Iterator[T]:
+        travel = self.tail
+
+        while travel is not None:
+            yield travel.data
+
+            travel = travel.previous
+
+        
+
     
     def __eq__(self, other: object) -> bool:
         raise NotImplementedError("LinkedList.__eq__ is not implemented")
