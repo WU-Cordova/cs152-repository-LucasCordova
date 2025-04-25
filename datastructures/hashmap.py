@@ -30,8 +30,29 @@ class HashMap(IHashMap[KT, VT]):
             
         raise IndexError(f"Key: {key} does not exist in the HashMap")
 
+    def _resize():
+
+        
+
+    def _next_prime(n: int) -> int:
+
+        def is_prime(num: int) -> bool:
+
+            
+
+
+        while not is_prime(n):
+            n += 1
+
+        return n
+
+
+
+
+
     def __setitem__(self, key: KT, value: VT) -> None:        
-        raise NotImplementedError("HashMap.__setitem__() is not implemented yet.")
+        if self._count / len(self._buckets) >= self._load_factor:
+            self._
 
     def keys(self) -> Iterator[KT]:
         raise NotImplementedError
